@@ -1,0 +1,18 @@
+# Tên của Chart (Thường đặt trùng tên với tên ứng dụng)
+apiVersion: v2
+name: health-data-platform
+description: A Helm chart for my Health Data Platform application deployed via ArgoCD
+
+# Phiên bản của "Chart" này (Cập nhật số này khi thay đổi cấu trúc file YAML bên trong)
+version: 0.1.0
+
+# Phiên bản của chính ứng dụng Go (thường để khớp với tag image Docker)
+appVersion: "1.0.0"
+
+# Các loại dữ liệu (Application hoặc Library)
+type: application
+
+# Thông tin tác giả (Tùy chọn)
+maintainers:
+  - name: Tony Tran
+    email: tony@example.com
