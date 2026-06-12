@@ -18,11 +18,11 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: DATABASE_URL
-            value: >-
-              postgres://{{ .Values.db.user }}:$(DB_PASSWORD)@{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}?sslmode=disable
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.db.existingSecretName }}
               key: {{ .Values.db.existingSecretKey }}
+        - name: DATABASE_URL
+          value: >-
+            postgres://{{ .Values.db.user }}:$(DB_PASSWORD)@{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.name }}?sslmode=disable
