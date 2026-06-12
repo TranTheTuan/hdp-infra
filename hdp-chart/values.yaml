@@ -3,3 +3,18 @@ replicaCount: 2
 image:
   repository: 22009988/health-data-platform
   tag: v2.2
+
+ingress:
+  host: hdp.cd.me
+
+db:
+  # Host chính là tên Service của Postgres trong K8s. 
+  # Cú pháp chuẩn: <tên-service>.<namespace>.svc.cluster.local
+  host: "my-db-postgresql-ha-pgpool.default.svc.cluster.local"
+  port: 5432
+  user: "postgres"
+  name: "hdp"
+  
+  # Chỉ định tên Secret và Key mà Helm Postgres đã tạo sẵn
+  existingSecretName: "my-db-postgresql-ha-postgresql"
+  existingSecretKey: "password"
