@@ -2,22 +2,23 @@
 
 postgresql:
   replicaCount: 2
-  username: "admin"
+  username: "postgres"
   database: "hdp"
+  image:
+    repository: bitnamilegacy/postgresql-repmgr
 
 pgpool:
   enabled: true
-  extendedConfig: |
-    read_write_splitting_method = 'sql_parser'
-    load_balance_mode = on
+  image:
+    repository: bitnamilegacy/pgpool
 
-  # =========================================================
-  # CẤU HÌNH BIẾN PGPOOL THÀNH SERVICE LOADBALANCER
-  # =========================================================
-  service:
-    type: LoadBalancer
-    port: 5432
-    
-    # Mẹo chuyên nghiệp cho MetalLB: Gán IP tĩnh
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: "192.168.1.202"
+# =========================================================
+# CẤU HÌNH BIẾN PGPOOL THÀNH SERVICE LOADBALANCER
+# =========================================================
+service:
+  type: LoadBalancer
+  ports:
+    postgresql: "5432"
+
+  # Mẹo chuyên nghiệp cho MetalLB: Gán IP tĩnh
+  loadBalancerIP: "192.168.1.202"
