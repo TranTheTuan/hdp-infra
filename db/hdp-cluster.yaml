@@ -1,0 +1,23 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: hdp-db
+  namespace: default
+spec:
+  instances: 3 # Tự động tạo 1 Master, 2 Slaves đồng bộ streaming HA
+
+  # Sử dụng image chính hãng từ GitHub, không bị block rate-limit
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+
+  # Cấu hình ổ đĩa lưu trữ tự động gắn vào từng Pod độc lập
+  storage:
+    size: 10Gi
+    storageClass: local-path # StorageClass mặc định cực mượt của K3s
+
+  # Khởi tạo DB ban đầu bằng Secret đã tạo ở trên
+  bootstrap:
+    initdb:
+      database: hdp
+      owner: admin
+      secret:
+        name: hdp-db-secret

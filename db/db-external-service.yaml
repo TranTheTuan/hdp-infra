@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hdp-db-external
+  namespace: default
+  annotations:
+    # Cấp đúng IP tĩnh bạn muốn thông qua MetalLB
+    metallb.universe.tf/loadBalancerIPs: "192.168.1.205"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+    protocol: TCP
+  selector:
+    cnpg.io/cluster: hdp-db
+    role: primary # Luôn luôn tự động trỏ vào con Master, kể cả khi failover xảy ra

@@ -10,11 +10,11 @@ ingress:
 db:
   # Host chính là tên Service của Postgres trong K8s. 
   # Cú pháp chuẩn: <tên-service>.<namespace>.svc.cluster.local
-  host: "my-db-postgresql-ha-pgpool.default.svc.cluster.local"
+  host: "hdp-db-rw.default.svc.cluster.local"
   port: 5432
-  user: "postgres"
+  user: "admin"
   name: "hdp"
   
   # Chỉ định tên Secret và Key mà Helm Postgres đã tạo sẵn
-  existingSecretName: "my-db-postgresql-ha-postgresql"
+  existingSecretName: "hdp-db-secret"
   existingSecretKey: "password"
