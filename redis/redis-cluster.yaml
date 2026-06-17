@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-operator
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://ot-container-kit.github.io/helm-charts'
+    chart: redis-operator
+    targetRevision: 0.19.1 # Bản stable mượt mà của Opstree Operator
+    # 💡 Tip: Nếu cụm K3s của anh không cài cert-manager, hãy tắt webhook đi cho nhẹ gánh
+    helm:
+      values: |
+        redisOperator:
+          webhook: false
+        certmanager:
+          enabled: false
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: redis-operator-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true      # Giống CNPG, giữ dòng này để K8s nạp đống CRD siêu to khổng lồ của Operator

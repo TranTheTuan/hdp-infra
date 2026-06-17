@@ -1,0 +1,23 @@
+apiVersion: redis.redis.opstreelabs.in/v1beta1
+kind: RedisReplication
+metadata:
+  name: redis-cache
+  namespace: hdp
+spec:
+  clusterSize: 2
+  kubernetesConfig:
+    image: docker.io/library/redis:7.2.5-alpine
+    imagePullPolicy: IfNotPresent
+
+    redisSecret:
+      name: "redis-secret"
+      key: "redis-password"
+
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
