@@ -13,6 +13,5 @@ spec:
     targetPort: 6379
     protocol: TCP
   selector:
-    # Bộ Selector chuẩn của Opstree Operator để chỉ thẳng vào Pod Master
-    redis.opstreelabs.in: redis-cache
-    role: master
+    role: replication
+    redis-role: master
