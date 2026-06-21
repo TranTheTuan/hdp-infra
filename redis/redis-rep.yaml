@@ -2,7 +2,7 @@ apiVersion: redis.redis.opstreelabs.in/v1beta1
 kind: RedisReplication
 metadata:
   name: redis-cache
-  namespace: hdp
+  namespace: default
 spec:
   clusterSize: 2
   kubernetesConfig:
