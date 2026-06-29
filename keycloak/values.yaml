@@ -1,0 +1,49 @@
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: keycloak-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: keycloak-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:MaxRAMPercentage=50.0
+      -Djgroups.dns.query=keycloak-headless
+  - name: KC_PROXY
+    value: edge
+
+dbchecker:
+  enabled: true
+
+database:
+  vendor: postgres
+  hostname: hdp-db-rw.default.svc.cluster.local
+  port: 5432
+  database: keycloak
+  username: keycloak_admin
+  existingSecret: keycloak-database-app
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    ingress.kubernetes.io/proxy-body-size: "0"
+  rules:
+    - host: auth.cd.me
+      paths:
+        - path: /
+          pathType: Prefix
+
+http:
+  relativePath: '/'
