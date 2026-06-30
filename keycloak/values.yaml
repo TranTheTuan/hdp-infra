@@ -22,6 +22,8 @@ extraEnv: |
       -Djgroups.dns.query=keycloak-headless
   - name: KC_PROXY
     value: edge
+  - name: KC_HOSTNAME
+    value: https://auth.tonytran.xyz
 
 dbchecker:
   enabled: true
@@ -41,6 +43,10 @@ ingress:
     ingress.kubernetes.io/proxy-body-size: "0"
   rules:
     - host: auth.cd.me
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: auth.tonytran.xyz
       paths:
         - path: /
           pathType: Prefix
